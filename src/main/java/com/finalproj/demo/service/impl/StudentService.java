@@ -44,14 +44,36 @@ public class StudentService implements IStudentService {
         }
     }
 
-
+    @Transactional
     @Override
     public boolean updateStudent(Student student) {
-        return false;
+        if(student.getEmail()!=null){
+            student.setLastEditDate((Data) new Date());
+            int effectedNum = studentDao.updateStudent(student);
+            if (effectedNum > 0){
+                return true;
+            }
+            else {
+                throw new RuntimeException("fail to update");
+            }
+        }else{
+            throw new RuntimeException("id is wrong");
+        }
+
     }
 
+    @Transactional
     @Override
     public boolean deleteStudent(int studentid) {
-        return false;
+        if (studentid > 0){
+            int effectedNum = studentDao.deleteStudent(studentid);
+            if (effectedNum > 0){
+                return true;
+            } else {
+                throw new RuntimeException("fail to delete");
+            }
+        } else {
+            throw new RuntimeException("id is wrong");
+        }
     }
 }

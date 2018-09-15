@@ -4,10 +4,8 @@ package com.finalproj.demo.controller;
 import com.finalproj.demo.domain.Student;
 import com.finalproj.demo.service.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,5 +42,20 @@ public class StudentController {
         modelMap.put("success", studentService.addStudent(student));
         return modelMap;
     }
+
+    @RequestMapping(value = "/updatestudent", method = RequestMethod.POST)
+    private Map<String, Object> updateStudent(@RequestBody Student student){
+        HashMap<String, Object> modeMap = new HashMap<>();
+        modeMap.put("success", studentService.updateStudent(student));
+        return modeMap;
+    }
+
+    @RequestMapping(value = "/deletestudent", method = RequestMethod.GET)
+    private Map<String, Object> deleteStudent(Integer studentid){
+        HashMap<String, Object> modeMap = new HashMap<>();
+        modeMap.put("success", studentService.deleteStudent(studentid));
+        return modeMap;
+    }
+
 
 }
