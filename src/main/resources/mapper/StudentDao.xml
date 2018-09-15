@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.finalproj.demo.dao.IStudent">
+    <select id="queryStudent" resultType = "com.finalproj.demo.domain.Student">
+        SELECT studentid, email, englishName, course, teacher, password
+        FROM studentinfo
+    </select>
+
+    <select id="searchByEmail" resultType="com.finalproj.demo.domain.Student">
+        SELECT studentid, email, englishName, course, teacher, password
+        FROM studentinfo
+        WHERE
+        emial=#{email}
+    </select>
+
+    <insert id="insertStudentbyId"  useGeneratedKeys="true" keyProperty="email"
+            keyColumn="studentid" parameterType="com.finalproj.demo.domain.Student">
+        INSERT INTO
+        studentinfo(default, englishName, course, teacher, password)
+        VALUES
+        (#{englishName},#{course},#{teacher},#{password})
+    </insert>
+
+    <!--<update id="updateStudent" parameterType="com.finalproj.demo.domain.Student">-->
+        <!--UPDATE studentinfo-->
+        <!--<set>-->
+            <!--<if test=""></if>-->
+        <!--</set>-->
+
+    <!--</update>-->
+
+
+</mapper>
