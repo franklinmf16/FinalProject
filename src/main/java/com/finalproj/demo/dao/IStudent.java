@@ -11,8 +11,8 @@ public interface IStudent {
     // insert
     int insertStudentbyId(Student student);
     //update
-//    int updateStudent(Student student);
-//    //delete
-//    int deleteStudent(Student student);
+    int updateStudent(Student student);
+    //delete
+    int deleteStudent(int studentid);
 
 }

@@ -28,9 +28,34 @@ public class IStudentTest {
 
     @Test
     public void searchByEmail() {
+        Student target = student.searchByEmail("heybok@gmail.com");
+        assertEquals("bokk",target.getEnglishName());
     }
 
     @Test
     public void insertStudentbyId() {
+        Student testStudent = new Student();
+        testStudent.setCourse("high");
+        testStudent.setEmail("504129976@qq.com");
+        testStudent.setEnglishName("Franklin");
+        testStudent.setTeacher("s");
+        testStudent.setPassword("123");
+        int effecttedNum = student.insertStudentbyId(testStudent);
+        assertEquals(1,effecttedNum);
+    }
+
+    @Test
+    public void updateStudent() {
+        Student testStudent = new Student();
+        testStudent.setEmail("bok@gmail.com");
+        testStudent.setStudentid(8);
+        int effectNum = student.updateStudent(testStudent);
+        assertEquals(1,effectNum);
+    }
+
+    @Test
+    public void deleteStudent() {
+        int effecttedNum = student.deleteStudent(8);
+        assertEquals(1,effecttedNum);
     }
 }
