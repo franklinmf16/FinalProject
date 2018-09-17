@@ -1,81 +1,43 @@
 package com.finalproj.demo.domain;
 
-import javax.xml.crypto.Data;
+import lombok.Data;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.util.Date;
+
+@Entity
+@Data
+@Table(name = "studentinfo")
 public class Student {
-
+    @Id
+    @Column(name = "studentid")
     private int studentid;
+    @Column(name = "email")
     private String email;
+    @Column(name = "englishName")
     private String englishName;
+    @Column(name = "course")
     private String course;
+    @Column(name = "teacher")
     private String teacher;
-    private Data enrollDate;
-    private Data lastEditDate;
+    @Column(name = "enrollDate")
+    private Date enrollDate;
+    @Column(name = "lastEditTime")
+    private Date lastEditDate;
+    @Column(name = "password")
     private String password;
 
-
-
-    public int getStudentid() {
-        return studentid;
+    public Student() {
     }
 
-    public void setStudentid(int studentid) {
-        this.studentid = studentid;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
+    public Student(String email, String englishName, String course, String teacher, String password) {
         this.email = email;
-    }
-
-    public String getEnglishName() {
-        return englishName;
-    }
-
-    public void setEnglishName(String englishName) {
         this.englishName = englishName;
-    }
-
-    public String getCourse() {
-        return course;
-    }
-
-    public void setCourse(String course) {
         this.course = course;
-    }
-
-    public String getTeacher() {
-        return teacher;
-    }
-
-    public void setTeacher(String teacher) {
         this.teacher = teacher;
-    }
-
-    public Data getEnrollDate() {
-        return enrollDate;
-    }
-
-    public void setEnrollDate(Data enrollDate) {
-        this.enrollDate = enrollDate;
-    }
-
-    public Data getLastEditDate() {
-        return lastEditDate;
-    }
-
-    public void setLastEditDate(Data lastEditDate) {
-        this.lastEditDate = lastEditDate;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
         this.password = password;
     }
 }

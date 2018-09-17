@@ -10,6 +10,6 @@ public interface IStudentService {
     Student getStudentByEmail(String email);
     boolean addStudent(Student student);
     boolean updateStudent(Student student);
-    boolean deleteStudent(int studentid);
+    boolean deleteStudent(Integer studentid);
 
 }
