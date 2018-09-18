@@ -1,16 +1,15 @@
 package com.finalproj.demo.domain;
 
 import lombok.Data;
+import org.springframework.stereotype.Controller;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Data
 @Table(name = "studentinfo")
+
 public class Student {
     @Id
     @Column(name = "studentid")
@@ -29,15 +28,19 @@ public class Student {
     private Date lastEditDate;
     @Column(name = "password")
     private String password;
+    @Column(name = "chineseName")
+    private String chineseName;
+    @Column(name = "phone")
+    private String phone;
+    @Column(name = "roles")
+    private Integer roles;
+    @Column(name = "question")
+    private String question;
+    @Column(name = "answer")
+    private String answer;
+
 
     public Student() {
     }
 
-    public Student(String email, String englishName, String course, String teacher, String password) {
-        this.email = email;
-        this.englishName = englishName;
-        this.course = course;
-        this.teacher = teacher;
-        this.password = password;
-    }
 }

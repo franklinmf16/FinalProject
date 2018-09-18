@@ -30,7 +30,8 @@ public class StudentController {
     }
 
     @RequestMapping(value = "/getstudentbyemail", method = RequestMethod.GET)
-    private Map<String, Object> getStudentByEmail(String email){ Map<String, Object> modelMap = new HashMap<String, Object>();
+    private Map<String, Object> getStudentByEmail(String email){
+        Map<String, Object> modelMap = new HashMap<String, Object>();
         Student targetStudent = studentService.getStudentByEmail(email);
         modelMap.put("student",targetStudent);
         return modelMap;
