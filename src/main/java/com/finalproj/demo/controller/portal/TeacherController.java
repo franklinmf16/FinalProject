@@ -1,4 +1,4 @@
-package com.finalproj.demo.controller;
+package com.finalproj.demo.controller.portal;
 
 import com.finalproj.demo.domain.Comment;
 import com.finalproj.demo.domain.Teacher;
@@ -24,7 +24,7 @@ public class TeacherController {
     private ICommentService comments;
 
     @Autowired
-    private ITeacherService teacherService;
+    private ITeacherService iTeacherService;
 
 
     @RequestMapping(value = "/makecomment", method = RequestMethod.POST)
@@ -41,13 +41,6 @@ public class TeacherController {
 
     }
 
-
-    @RequestMapping(value = "/listteacher", method = RequestMethod.GET)
-    public Map<String, Object> listTeacher(){
-        HashMap<String, Object> modeMap = new HashMap<>();
-        modeMap.put("teacherlist", teacherService.listTeacher());
-        return modeMap;
-    }
 
 
 

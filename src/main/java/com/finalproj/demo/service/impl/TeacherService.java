@@ -1,5 +1,7 @@
 package com.finalproj.demo.service.impl;
 
+import com.finalproj.demo.common.ServerResponse;
+import com.finalproj.demo.domain.Student;
 import com.finalproj.demo.domain.Teacher;
 import com.finalproj.demo.repository.TeacherRepository;
 import com.finalproj.demo.service.ITeacherService;
@@ -17,29 +19,42 @@ public class TeacherService implements ITeacherService {
 
 
     @Override
-    public List<Teacher> listTeacher() {
-        List<Teacher> teachers = new ArrayList<>();
-        teacherRepository.findAll().forEach(teachers::add);
-        return teachers;
+    public ServerResponse<Teacher> login(String username, String password) {
+        return null;
     }
 
-//    @Override
-//    public Teacher getTeacherById(Integer teacherid) {
-//        return null;
-//    }
-//
-//    @Override
-//    public boolean addTeacher(Teacher teacher) {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean updateTeacher(Teacher teacher) {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean deleteTeacher(Integer teacherid) {
-//        return false;
-//    }
+    @Override
+    public ServerResponse<String> register(Teacher teacher) {
+        return null;
+    }
+
+    @Override
+    public ServerResponse<String> checkValid(String email) {
+        return null;
+    }
+
+    @Override
+    public ServerResponse selectQuestion(String email) {
+        return null;
+    }
+
+    @Override
+    public ServerResponse checkAnswer(String email, String question, String answer) {
+        return null;
+    }
+
+    @Override
+    public ServerResponse<String> forgetResetPassword(String email, String passwordNew, String forgetToken) {
+        return null;
+    }
+
+    @Override
+    public ServerResponse<String> resetPassword(String passwordOld, String passwordNew, Student student) {
+        return null;
+    }
+
+    @Override
+    public ServerResponse<Student> updateInformation(Student student) {
+        return null;
+    }
 }
