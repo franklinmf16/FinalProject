@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 
+
+// TODO: 21/9/18 access his comment, findCommentsbyStudentid
+
+
 @RestController
 @RequestMapping("/user")
 public class StudentController {
@@ -47,7 +51,6 @@ public class StudentController {
     public ServerResponse<String> logout(HttpSession session){
         session.removeAttribute(Const.CURRENT_USER);
         return ServerResponse.createBySuccess();
-
     }
 
     /**
@@ -116,6 +119,9 @@ public class StudentController {
         //protect id being changed
         student.setStudentid(currentStudent.getStudentid());
         student.setPassword(currentStudent.getPassword());
+        student.setTeacher(currentStudent.getTeacher());
+        student.setTeacherid(currentStudent.getTeacherid());
+
         // email must exist
         if (student.getEmail()==null){
             student.setEmail(currentStudent.getEmail());

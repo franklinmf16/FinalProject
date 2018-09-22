@@ -26,7 +26,7 @@ public class StudentService implements IStudentService {
 
         boolean checkEmail = studentRepository.existsByEmail(email);
         if (!checkEmail){
-            System.out.println("con");
+            System.out.println("wrong");
             return ServerResponse.createByErrorMessage("Student does not exist");
         }
 
@@ -71,7 +71,7 @@ public class StudentService implements IStudentService {
     public ServerResponse<String> checkValid(String email) {
         boolean checkEmail = studentRepository.existsByEmail(email);
         if(!checkEmail){
-            return ServerResponse.createBySuccess("not such email");
+            return ServerResponse.createBySuccess("there is no such email");
         }
         return ServerResponse.createBySuccess("is valid email");
     }
