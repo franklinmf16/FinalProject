@@ -43,6 +43,53 @@ public class StudentController {
         return studentService.selectQuestion(email);
     }
 
+    @RequestMapping(value = "answer", method = RequestMethod.GET)
+    public ServerResponse<String> forgetCheckAnswer(String email, String answer) {
+        return studentService.checkAnswer(email, answer);
+    }
+
+    @RequestMapping(value = "resetwithanswer", method = RequestMethod.GET)
+    public ServerResponse<String> forgetResetPassword(String email, String passwordNew, String forgetToken) {
+        return studentService.forgetResetPassword(email, passwordNew, forgetToken);
+    }
+
+    @RequestMapping(value = "resetpasswordsession", method = RequestMethod.GET)
+    public ServerResponse<String> resetPassword(HttpSession session, String passwordOld, String passwordNew) {
+        Student student = (Student) session.getAttribute(Const.CURRENT_USER);
+
+        if (student == null) {
+            ServerResponse.createByErrorMessage("Student has not logged in");
+        }
+
+        return studentService.resetPassword(passwordOld, passwordNew, student);
+    }
+
+    @RequestMapping(value = "updateinfomation", method = RequestMethod.POST)
+    public ServerResponse<Student> updateInformation(HttpSession session, @RequestBody Student student) {
+        //see if the student has logged in
+        Student currentStudent = (Student) session.getAttribute(Const.CURRENT_USER);
+
+        if (currentStudent == null) {
+            return ServerResponse.createByErrorMessage("Student has not logged in");
+        }
+
+        //protect id being changed
+        student.setStudentId(currentStudent.getStudentId());
+        student.setPassword(currentStudent.getPassword());
+
+        // email must exist
+        if (student.getEmail() == null) {
+            student.setEmail(currentStudent.getEmail());
+        }
+        //update
+        ServerResponse<Student> response = studentService.updateInformation(student);
+        if (response.isSuccess()) {
+            session.setAttribute(Const.CURRENT_USER, response.getData());
+        }
+        return response;
+
+    }
+
 
 
 
