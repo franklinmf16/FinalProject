@@ -34,6 +34,10 @@ public class StudentController {
 
     @RequestMapping(value = "logout", method = RequestMethod.GET)
     public ServerResponse<String> logout(HttpSession session) {
+        if (session.getAttribute(Const.CURRENT_USER) == null){
+            return ServerResponse.createByErrorMessage("do not need to log out");
+        }
+
         session.removeAttribute(Const.CURRENT_USER);
         return ServerResponse.createBySuccess("log out success");
     }
@@ -87,13 +91,17 @@ public class StudentController {
             session.setAttribute(Const.CURRENT_USER, response.getData());
         }
         return response;
-
     }
 
 
-
-
-
+    @RequestMapping(value = "myInformation", method = RequestMethod.GET)
+    public ServerResponse myInformation(HttpSession session){
+        Student currentStudent = (Student) session.getAttribute(Const.CURRENT_USER);
+        // personal information
+        // course information
+        // lesson information
+        return null;
+    }
 
 
 }
