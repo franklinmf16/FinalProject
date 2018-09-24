@@ -39,5 +39,11 @@ public class Student {
     @Column(name = "last_edit_date")
     private Date lastEditDate;
 
+    @Column(name = "question")
+    private String question;
+
+    @Column(name = "answer")
+    private String answer;
+
 
 }
