@@ -85,10 +85,12 @@ public class TeacherService implements ITeacherService {
         return null;
     }
 
+    @Override
+    public ServerResponse getStudentEnrollmentInfo(Integer teacherId) {
+        // 通过teacherId查找老师自己学生的enrollemmt
 
-
-
-
+        return null;
+    }
 
 
 }

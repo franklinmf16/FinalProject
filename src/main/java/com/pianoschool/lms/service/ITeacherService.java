@@ -11,5 +11,9 @@ public interface ITeacherService {
     public ServerResponse checkAnswer(String email, String question, String answer);
     public ServerResponse<String> forgetResetPassword(String email, String passwordNew, String forgetToken);
     public ServerResponse<String> resetPassword(String passwordOld, String passwordNew, Teacher teacher);
+    // 获得enrollment的信息 可以通过studentId 获得enrollment的信息
+    public ServerResponse getStudentEnrollmentInfo(Integer teacherId);
+
+
 
 }
