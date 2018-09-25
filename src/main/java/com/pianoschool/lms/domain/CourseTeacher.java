@@ -30,4 +30,5 @@ public class CourseTeacher {
     private Date lastEditDate;
 
 
+
 }

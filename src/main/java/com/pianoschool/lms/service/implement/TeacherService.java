@@ -2,6 +2,8 @@ package com.pianoschool.lms.service.implement;
 
 import com.pianoschool.lms.common.ServerResponse;
 import com.pianoschool.lms.domain.Teacher;
+import com.pianoschool.lms.repository.EnrollmentRepository;
+import com.pianoschool.lms.repository.StudentRepository;
 import com.pianoschool.lms.repository.TeacherRepository;
 import com.pianoschool.lms.service.ITeacherService;
 import com.pianoschool.lms.util.MD5Util;
@@ -16,6 +18,10 @@ public class TeacherService implements ITeacherService {
 
     @Autowired
     private TeacherRepository teacherRepository;
+    @Autowired
+    private EnrollmentRepository enrollmentRepository;
+    @Autowired
+    private StudentRepository studentRepository;
 
     @Override
     public ServerResponse<String> checkValid(String email) {
@@ -88,6 +94,8 @@ public class TeacherService implements ITeacherService {
     @Override
     public ServerResponse getStudentEnrollmentInfo(Integer teacherId) {
         // 通过teacherId查找老师自己学生的enrollemmt
+
+
 
         return null;
     }
