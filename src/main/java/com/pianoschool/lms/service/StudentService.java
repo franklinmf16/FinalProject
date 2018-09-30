@@ -1,10 +1,9 @@
-package com.pianoschool.lms.service.implement;
+package com.pianoschool.lms.service;
 
 import com.pianoschool.lms.common.ServerResponse;
 import com.pianoschool.lms.common.TokenCache;
 import com.pianoschool.lms.domain.Student;
 import com.pianoschool.lms.repository.StudentRepository;
-import com.pianoschool.lms.service.IStudentService;
 import com.pianoschool.lms.util.MD5Util;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +13,11 @@ import java.util.Date;
 import java.util.UUID;
 
 @Service
-public class StudentService implements IStudentService {
+public class StudentService {
 
     @Autowired
     private StudentRepository studentRepository;
 
-    @Override
     public ServerResponse<String> isExist(String email) {
         boolean isExist = studentRepository.existsByEmail(email);
         if (!isExist) {
@@ -28,8 +26,6 @@ public class StudentService implements IStudentService {
         return ServerResponse.createByErrorMessage("email has already existed");
     }
 
-
-    @Override
     public ServerResponse<String> register(Student student) {
         if (student.getEmail() == null) {
             return ServerResponse.createByErrorMessage("Can't register without email");
@@ -56,7 +52,6 @@ public class StudentService implements IStudentService {
 
     }
 
-    @Override
     public ServerResponse<Student> login(String email, String password) {
 
         boolean checkEmail = studentRepository.existsByEmail(email);
@@ -76,7 +71,6 @@ public class StudentService implements IStudentService {
         return ServerResponse.createBySuccess("Success", student);
     }
 
-    @Override
     public ServerResponse selectQuestion(String email) {
         ServerResponse<String> validResponse = this.isExist(email);
         if (validResponse.isSuccess()) {
@@ -90,7 +84,6 @@ public class StudentService implements IStudentService {
 
     }
 
-    @Override
     public ServerResponse checkAnswer(String email, String answer) {
 
         Student resultCount = studentRepository.findStudentByEmailAndAndAnswer(email, answer);
@@ -109,7 +102,6 @@ public class StudentService implements IStudentService {
 
     }
 
-    @Override
     public ServerResponse<String> forgetResetPassword(String email, String passwordNew, String forgetToken) {
         if (StringUtils.isBlank(forgetToken)) {
             return ServerResponse.createByErrorMessage("no token");
@@ -141,7 +133,6 @@ public class StudentService implements IStudentService {
 
     }
 
-    @Override
     public ServerResponse<String> resetPassword(String passwordOld, String passwordNew, Student student) {
         Student selectStudent = studentRepository.findStudentByEmailAndPassword(student.getEmail(), MD5Util.MD5EncodeUtf8(passwordOld));
 
@@ -155,7 +146,6 @@ public class StudentService implements IStudentService {
 
     }
 
-    @Override
     public ServerResponse<Student> updateInformation(Student student) {
         String resetEmail = student.getEmail();
         int studentId = student.getStudentId();

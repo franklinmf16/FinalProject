@@ -1,9 +1,6 @@
 package com.pianoschool.lms.util;
 
 
-import org.apache.logging.log4j.util.PropertiesUtil;
-import org.springframework.util.StringUtils;
-
 import java.security.MessageDigest;
 
 

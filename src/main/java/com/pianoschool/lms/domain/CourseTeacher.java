@@ -21,7 +21,7 @@ public class CourseTeacher {
     private int teacherId;
 
     @Column(name = "active")
-    private int active;
+    private Integer active;
 
     @Column(name = "create_date")
     private Date createDate;

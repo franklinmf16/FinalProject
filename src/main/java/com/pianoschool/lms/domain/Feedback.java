@@ -7,8 +7,8 @@ import java.util.Date;
 
 @Entity
 @Data
-@Table(name = "teacher_feedback")
-public class TeacherFeedback {
+@Table(name = "feedback")
+public class Feedback {
 
     @Id
     @Column(name = "id")
@@ -17,8 +17,8 @@ public class TeacherFeedback {
     @Column(name = "enrollment_id")
     private int enrollmentId;
 
-    @Column(name = "comments")
-    private String comments;
+    @Column(name = "feedback")
+    private String feedback;
 
     @Column(name = "create_date")
     private Date createDate;

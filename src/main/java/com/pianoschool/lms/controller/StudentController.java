@@ -4,7 +4,7 @@ package com.pianoschool.lms.controller;
 import com.pianoschool.lms.common.Const;
 import com.pianoschool.lms.common.ServerResponse;
 import com.pianoschool.lms.domain.Student;
-import com.pianoschool.lms.service.IStudentService;
+import com.pianoschool.lms.service.StudentService;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 public class StudentController {
 
     @Autowired
-    private IStudentService studentService;
+    private StudentService studentService;
 
     @RequestMapping(value = "register", method = RequestMethod.POST)
     public ServerResponse<String> register(@RequestBody Student student) {

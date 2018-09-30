@@ -1,20 +1,27 @@
-package com.pianoschool.lms.service.implement;
+package com.pianoschool.lms.service;
 
 import com.pianoschool.lms.common.ServerResponse;
+import com.pianoschool.lms.domain.Feedback;
 import com.pianoschool.lms.domain.Teacher;
+import com.pianoschool.lms.domain.model.EnrollmentStudentInfo;
+import com.pianoschool.lms.domain.model.IEnrollmentStudentInfo;
+import com.pianoschool.lms.domain.model.StudentFeedbackInfo;
 import com.pianoschool.lms.repository.EnrollmentRepository;
+import com.pianoschool.lms.repository.FeedbackRepository;
 import com.pianoschool.lms.repository.StudentRepository;
 import com.pianoschool.lms.repository.TeacherRepository;
-import com.pianoschool.lms.service.ITeacherService;
 import com.pianoschool.lms.util.MD5Util;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-public class TeacherService implements ITeacherService {
+public class TeacherService   {
 
     @Autowired
     private TeacherRepository teacherRepository;
@@ -22,9 +29,21 @@ public class TeacherService implements ITeacherService {
     private EnrollmentRepository enrollmentRepository;
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private FeedbackRepository feedbackRepository;
 
-    @Override
-    public ServerResponse<String> checkValid(String email) {
+    @Autowired
+    private EnrollmentInfoConverter converter;
+
+    public List<Teacher> findAll() {
+        return teacherRepository.findAll();
+    }
+
+    public ServerResponse finds(){
+        return ServerResponse.createBySuccess(teacherRepository.findAll());
+    }
+
+    private ServerResponse<String> checkValid(String email) {
         boolean isExist = teacherRepository.existsByEmail(email);
         if (!isExist) {
             ServerResponse.createBySuccess("is valid email");
@@ -32,7 +51,6 @@ public class TeacherService implements ITeacherService {
         return ServerResponse.createByErrorMessage("email has already existed");
     }
 
-    @Override
     public ServerResponse<String> register(Teacher teacher) {
         if (teacher.getEmail() == null) {
             return ServerResponse.createByErrorMessage("Can't register without email");
@@ -51,7 +69,6 @@ public class TeacherService implements ITeacherService {
 
     }
 
-    @Override
     public ServerResponse<Teacher> login(String email, String password) {
         ServerResponse<String> checkValid = checkValid(email);
 
@@ -66,38 +83,69 @@ public class TeacherService implements ITeacherService {
             return ServerResponse.createByErrorMessage("Password is wrong");
         }
 
-        teacher.setPassword(StringUtils.EMPTY);
+        //teacher.setPassword(StringUtils.EMPTY);
         return ServerResponse.createBySuccess("Success log in as teacher",teacher);
 
     }
 
-    @Override
     public ServerResponse selectQuestion(String email) {
         return null;
     }
 
-    @Override
     public ServerResponse checkAnswer(String email, String question, String answer) {
         return null;
     }
 
-    @Override
     public ServerResponse<String> forgetResetPassword(String email, String passwordNew, String forgetToken) {
         return null;
     }
 
-    @Override
     public ServerResponse<String> resetPassword(String passwordOld, String passwordNew, Teacher teacher) {
         return null;
     }
 
-    @Override
-    public ServerResponse getStudentEnrollmentInfo(Integer teacherId) {
+    public ServerResponse getStudentEnrollmentInfo(int teacherId) {
         // 通过teacherId查找老师自己学生的enrollemmt
+//        List<Enrollment> enrollments = enrollmentRepository.findEnrollmentByTeacherId(teacherId);
+//        List<Enrollment> all = enrollmentRepository.findAll();
+//        List<Enrollment> all = enrollmentRepository.findAllByTeacherId(teacherId);
+
+//        List<Object[]> a = enrollmentRepository.findEnrollmentStudentInfoByTeacherId(teacherId);
+
+        List<IEnrollmentStudentInfo> a = enrollmentRepository.findEnrollmentStudentInfoByTeacherId(teacherId);
+        List<EnrollmentStudentInfo> enrollInfo = a.stream().map(info -> converter.build(info)).collect(Collectors.toList());
+
+        return ServerResponse.createBySuccess("success", enrollInfo);
+    }
+
+    public ServerResponse searchFeedback(int teacherId, int studentId) {
+        List<StudentFeedbackInfo> result = feedbackRepository.searchFeedback(teacherId, studentId);
+        return  ServerResponse.createBySuccess("success", result);
+
+    }
+
+    public ServerResponse makeFeedback(int teacherId, int studentId, String feedback) {
+        //1. 找出学生ID对应的enrollmentId
+        //2. new 一个feedback
+        //3. save and flush feedback
+
+        Optional<Integer> enrollmentId = enrollmentRepository.findEnrollmentIdByStudentId(studentId);
+
+        if (!enrollmentId.isPresent()){
+            return ServerResponse.createByErrorMessage("wrong student Id");
+        }
+
+        Feedback myFeedback = new Feedback();
+
+        myFeedback.setEnrollmentId(enrollmentId.get());
+        myFeedback.setFeedback(feedback);
+        myFeedback.setCreateDate(new Date());
+        myFeedback.setLastEditDate(new Date());
 
 
+        feedbackRepository.saveAndFlush(myFeedback);
 
-        return null;
+        return ServerResponse.createBySuccess("success add feedback");
     }
 
 

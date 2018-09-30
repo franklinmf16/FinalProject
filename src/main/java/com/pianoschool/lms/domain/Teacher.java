@@ -1,5 +1,6 @@
 package com.pianoschool.lms.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -22,6 +23,7 @@ public class Teacher {
     private String email;
 
     @Column(name = "password")
+    @JsonIgnore
     private String password;
 
     @Column(name = "full_name")
@@ -31,15 +33,19 @@ public class Teacher {
     private String phone;
 
     @Column(name = "create_date")
+    @JsonIgnore
     private Date createDate;
 
     @Column(name = "last_edit_date")
+    @JsonIgnore
     private Date lastEditDate;
 
     @Column(name = "question")
+    @JsonIgnore
     private String question;
 
     @Column(name = "answer")
+    @JsonIgnore
     private String answer;
 
 

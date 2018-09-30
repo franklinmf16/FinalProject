@@ -24,4 +24,11 @@ public class Lesson {
     @Column(name = "lesson_code")
     private String lessonCode;
 
+    @Column(name = "create_date")
+    private Date createDate;
+
+    @Column(name = "last_edit_date")
+    private Date lastEditDate;
+
+
 }

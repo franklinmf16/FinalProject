@@ -10,26 +10,30 @@ import java.util.Date;
 @Table(name = "enrollment")
 public class Enrollment {
     @Id
-    @Column(name = "enrollment_id")
+    @Column(name = "id")
     private int enrollmentId;
 
     @Column(name = "student_id")
-    private String studentId;
+    private int studentId;
 
-    @Column(name = "course_teacher_id")
-    private String courseTeacherId;
+    @Column(name = "teacher_id")
+    private int teacherId;
+
+    @Column(name = "course_id")
+    private int courseId;
 
     @Column(name = "done")
-    private Integer done;
-
-    @Column(name = "enroll_date")
-    private Date enrollDate;
+    private boolean done;
 
     @Column(name = "create_date")
     private Date createDate;
 
     @Column(name = "last_edit_date")
     private Date lastEditDate;
+
+//    private String fullName;
+//
+//    private String courseName;
 
 
 

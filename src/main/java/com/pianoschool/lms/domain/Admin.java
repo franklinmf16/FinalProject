@@ -1,5 +1,6 @@
 package com.pianoschool.lms.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -21,6 +22,7 @@ public class Admin {
     private String email;
 
     @Column(name = "password")
+    @JsonIgnore
     private String password;
 
     @Column(name = "full_name")
