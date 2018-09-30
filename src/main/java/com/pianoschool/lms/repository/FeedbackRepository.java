@@ -18,17 +18,7 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
     List<StudentFeedbackInfo> searchFeedback(@Param("teacherId")Integer teacherId,
                                              @Param("studentId") Integer studentId);
 
-    /**
-     * teacher make feedback to a specific student
-     * @param teacherId
-     * @param studentId
-     * @param feedback
-     * @return
-     */
-//    @Query("")
-////    List makeFeedback(@Param("teacherId")Integer teacherId,
-////                      @Param("studentId") Integer studentId,
-////                      @Param("feedback") String feedback);
+
 
 }
 

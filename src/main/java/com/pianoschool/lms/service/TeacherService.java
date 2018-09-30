@@ -35,13 +35,7 @@ public class TeacherService   {
     @Autowired
     private EnrollmentInfoConverter converter;
 
-    public List<Teacher> findAll() {
-        return teacherRepository.findAll();
-    }
 
-    public ServerResponse finds(){
-        return ServerResponse.createBySuccess(teacherRepository.findAll());
-    }
 
     private ServerResponse<String> checkValid(String email) {
         boolean isExist = teacherRepository.existsByEmail(email);
@@ -50,6 +44,7 @@ public class TeacherService   {
         }
         return ServerResponse.createByErrorMessage("email has already existed");
     }
+
 
     public ServerResponse<String> register(Teacher teacher) {
         if (teacher.getEmail() == null) {
@@ -68,6 +63,8 @@ public class TeacherService   {
         return ServerResponse.createBySuccess("success to register as a teacher");
 
     }
+
+
 
     public ServerResponse<Teacher> login(String email, String password) {
         ServerResponse<String> checkValid = checkValid(email);
@@ -88,6 +85,7 @@ public class TeacherService   {
 
     }
 
+    //todo question answer and reset password
     public ServerResponse selectQuestion(String email) {
         return null;
     }
@@ -106,11 +104,6 @@ public class TeacherService   {
 
     public ServerResponse getStudentEnrollmentInfo(int teacherId) {
         // 通过teacherId查找老师自己学生的enrollemmt
-//        List<Enrollment> enrollments = enrollmentRepository.findEnrollmentByTeacherId(teacherId);
-//        List<Enrollment> all = enrollmentRepository.findAll();
-//        List<Enrollment> all = enrollmentRepository.findAllByTeacherId(teacherId);
-
-//        List<Object[]> a = enrollmentRepository.findEnrollmentStudentInfoByTeacherId(teacherId);
 
         List<IEnrollmentStudentInfo> a = enrollmentRepository.findEnrollmentStudentInfoByTeacherId(teacherId);
         List<EnrollmentStudentInfo> enrollInfo = a.stream().map(info -> converter.build(info)).collect(Collectors.toList());
