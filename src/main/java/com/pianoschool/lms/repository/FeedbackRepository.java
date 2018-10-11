@@ -15,10 +15,10 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
     @Query("select f.feedback as feedback, e.studentId as studentId, e.courseId as courseId, s.fullName as fullName\n" +
             "from Feedback f, Enrollment e, Student s \n" +
             "where e.enrollmentId = f.enrollmentId and e.teacherId = :teacherId and e.studentId = :studentId and s.studentId = :studentId ")
-    List<StudentFeedbackInfo> searchFeedback(@Param("teacherId")Integer teacherId,
+    List<StudentFeedbackInfo> searchFeedback(@Param("teacherId") Integer teacherId,
                                              @Param("studentId") Integer studentId);
 
 
+    List<Feedback> findByEnrollmentId(int enrollmentId);
 
 }
-

@@ -2,21 +2,28 @@ package com.pianoschool.lms.service;
 
 import com.pianoschool.lms.common.ServerResponse;
 import com.pianoschool.lms.common.TokenCache;
-import com.pianoschool.lms.domain.Student;
-import com.pianoschool.lms.repository.StudentRepository;
+import com.pianoschool.lms.domain.*;
+import com.pianoschool.lms.repository.*;
 import com.pianoschool.lms.util.MD5Util;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class StudentService {
 
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private EnrollmentRepository enrollmentRepository;
+    @Autowired
+    private CourseRepository courseRepository;
+    @Autowired
+    private FeedbackRepository feedbackRepository;
+    @Autowired
+    private TeacherRepository teacherRepository;
 
     public ServerResponse<String> isExist(String email) {
         boolean isExist = studentRepository.existsByEmail(email);
@@ -169,6 +176,74 @@ public class StudentService {
 
         return ServerResponse.createBySuccess("updated",student);
     }
+
+
+    public ServerResponse getMyCourse(int studentId){
+
+        Optional<Enrollment> enrollment = enrollmentRepository.findById((Integer) studentId);
+
+        if (enrollment.get() == null){
+            return ServerResponse.createByErrorMessage("no course enrolled");
+        }
+
+        int courseId = enrollment.get().getCourseId();
+        Optional<Course> course = courseRepository.findById(courseId);
+        String courseName = course.get().getCourseName();
+
+
+        return ServerResponse.createBySuccess("here is list",courseName);
+    }
+
+    public ServerResponse getFeedback(int studentId){
+        Optional<Enrollment> enrollment = enrollmentRepository.findById((Integer) studentId);
+
+        if (enrollment.get() == null){
+            return ServerResponse.createByErrorMessage("no course enrolled");
+        }
+
+        List<Feedback> listFeedback = feedbackRepository.findByEnrollmentId(enrollment.get().getEnrollmentId());
+
+        Feedback result = listFeedback.get(listFeedback.size() - 1);
+
+        return ServerResponse.createBySuccess("get feedback", result.getFeedback());
+
+    }
+
+    public ServerResponse getFeedbackList(int studentId){
+        Optional<Enrollment> enrollment = enrollmentRepository.findById((Integer) studentId);
+
+        if (enrollment.get() == null){
+            return ServerResponse.createByErrorMessage("no course enrolled");
+        }
+
+        List<Feedback> listFeedback = feedbackRepository.findByEnrollmentId(enrollment.get().getEnrollmentId());
+
+        ArrayList<String> list = new ArrayList<>();
+        for (Feedback feedback : listFeedback) {
+            list.add(feedback.getFeedback());
+        }
+
+        return ServerResponse.createBySuccess("list of feedback", list);
+
+    }
+
+    public ServerResponse getTeacherName(int studentId){
+        Optional<Enrollment> enrollment = enrollmentRepository.findById((Integer) studentId);
+
+        if (enrollment.get() == null){
+            return ServerResponse.createByErrorMessage("no course enrolled");
+        }
+
+        int teacherId = enrollment.get().getTeacherId();
+        Optional<Teacher> teacher = teacherRepository.findById(teacherId);
+        String fullName = teacher.get().getFullName();
+
+        return ServerResponse.createBySuccess("list of feedback", fullName);
+
+    }
+
+
+
 
 
 }

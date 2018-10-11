@@ -94,14 +94,59 @@ public class StudentController {
     }
 
 
-    @RequestMapping(value = "myInformation", method = RequestMethod.GET)
+    @RequestMapping(value = "mycourse", method = RequestMethod.GET)
     public ServerResponse myInformation(HttpSession session){
         Student currentStudent = (Student) session.getAttribute(Const.CURRENT_USER);
-        // personal information
-        // course information
-        // lesson information
-        return null;
+
+        if (currentStudent == null) {
+            return ServerResponse.createByErrorMessage("Student has not logged in");
+        }
+
+        ServerResponse result = studentService.getMyCourse(currentStudent.getStudentId());
+
+        return result;
     }
+
+    @RequestMapping(value = "mynewfeedback", method = RequestMethod.GET)
+    public ServerResponse getfeedback(HttpSession session){
+        Student currentStudent = (Student) session.getAttribute(Const.CURRENT_USER);
+
+        if (currentStudent == null) {
+            return ServerResponse.createByErrorMessage("Student has not logged in");
+        }
+
+        ServerResponse result = studentService.getFeedback(currentStudent.getStudentId());
+
+        return result;
+    }
+
+    @RequestMapping(value = "myfeedbacklist", method = RequestMethod.GET)
+    public ServerResponse getFeedbackList(HttpSession session){
+        Student currentStudent = (Student) session.getAttribute(Const.CURRENT_USER);
+
+        if (currentStudent == null) {
+            return ServerResponse.createByErrorMessage("Student has not logged in");
+        }
+
+        ServerResponse result = studentService.getFeedbackList(currentStudent.getStudentId());
+
+        return result;
+    }
+
+    @RequestMapping(value = "myteacher", method = RequestMethod.GET)
+    public ServerResponse myTeacher(HttpSession session){
+        Student currentStudent = (Student) session.getAttribute(Const.CURRENT_USER);
+
+        if (currentStudent == null) {
+            return ServerResponse.createByErrorMessage("Student has not logged in");
+        }
+
+        ServerResponse result = studentService.getTeacherName(currentStudent.getStudentId());
+
+        return result;
+    }
+
+
 
 
 }

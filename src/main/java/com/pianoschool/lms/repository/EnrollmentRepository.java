@@ -27,4 +27,6 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Integer>
     Optional<Integer> findEnrollmentIdByStudentId(@Param("studentId") int studentId);
 
 
+    @Override
+    Optional<Enrollment> findById(Integer integer);
 }
