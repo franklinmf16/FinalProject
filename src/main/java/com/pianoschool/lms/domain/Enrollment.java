@@ -31,9 +31,6 @@ public class Enrollment {
     @Column(name = "last_edit_date")
     private Date lastEditDate;
 
-//    private String fullName;
-//
-//    private String courseName;
 
 
 

@@ -4,8 +4,12 @@ import com.pianoschool.lms.common.Const;
 import com.pianoschool.lms.common.ServerResponse;
 import com.pianoschool.lms.domain.Feedback;
 import com.pianoschool.lms.domain.Teacher;
+import com.pianoschool.lms.domain.model.TeacherFeedback;
 import com.pianoschool.lms.service.TeacherService;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -83,17 +87,88 @@ public class TeacherController {
         return teacherService.searchFeedback(teacher.getTeacherId(), studentId);
     }
 
-    @RequestMapping(value = "makefeedback", method = RequestMethod.POST, produces = "application/json")
-    public ServerResponse makeFeedback(HttpSession session, int studentId, String feedback) {
+    @RequestMapping(value = "makefeedback", method = RequestMethod.POST, consumes = {"application/x-www-form-urlencoded"}, produces = "application/json")
+    public ServerResponse makeFeedback(HttpSession session,  TeacherFeedback returnFeedback) {
+
+
+        String feedback = returnFeedback.getFeedback();
+        String resultId = returnFeedback.getStudentId();
+        int studentId = Integer.parseInt(resultId);
+
+
         Teacher teacher = (Teacher) session.getAttribute(Const.CURRENT_USER);
         if (teacher == null) {
             return ServerResponse.createByErrorMessage("Please Login first.");
         }
 
+        System.out.println("student id is ");
+        System.out.println(studentId);
+
+
         ServerResponse response = teacherService.makeFeedback(teacher.getTeacherId(), studentId, feedback);
         return response;
 
     }
+
+    @RequestMapping(value = "number", method = RequestMethod.GET, produces = "application/json")
+    public ServerResponse getStudentNmuber(HttpSession session) {
+        Teacher teacher = (Teacher) session.getAttribute(Const.CURRENT_USER);
+        if (teacher == null) {
+            return ServerResponse.createByErrorMessage("Please Login first.");
+        }
+
+        ServerResponse response = teacherService.getStudentNumber(teacher.getTeacherId());
+        return response;
+    }
+
+    @RequestMapping(value = "newstudent", method = RequestMethod.GET, produces = "application/json")
+    public ServerResponse getNewStudent(HttpSession session) {
+        Teacher teacher = (Teacher) session.getAttribute(Const.CURRENT_USER);
+        if (teacher == null) {
+            return ServerResponse.createByErrorMessage("Please Login first.");
+        }
+
+        ServerResponse response = teacherService.getNewStudent(teacher.getTeacherId());
+        return response;
+    }
+
+    @RequestMapping(value = "newfeedback", method = RequestMethod.GET, produces = "application/json")
+    public ServerResponse getNewFeedback(HttpSession session) {
+        Teacher teacher = (Teacher) session.getAttribute(Const.CURRENT_USER);
+        if (teacher == null) {
+            return ServerResponse.createByErrorMessage("Please Login first.");
+        }
+
+        ServerResponse response = teacherService.getNewFeedback(teacher.getTeacherId());
+        return response;
+    }
+
+
+    @RequestMapping(value = "getstudentinfo", method = RequestMethod.GET, produces = "application/json")
+    public ServerResponse getStudentEnrollmentInfomation(HttpSession session) {
+        Teacher teacher = (Teacher) session.getAttribute(Const.CURRENT_USER);
+        if (teacher == null) {
+            return ServerResponse.createByErrorMessage("Please Login first.");
+        }
+
+        ServerResponse response = teacherService.getStudentEnrollmentInfo(teacher.getTeacherId());
+        return response;
+    }
+
+    @RequestMapping(value = "getstudentlist", method = RequestMethod.GET, produces = "application/json")
+    public ServerResponse getStudentList(HttpSession session) {
+        Teacher teacher = (Teacher) session.getAttribute(Const.CURRENT_USER);
+        if (teacher == null) {
+            return ServerResponse.createByErrorMessage("Please Login first.");
+        }
+
+        ServerResponse response = teacherService.getStudentLists(teacher.getTeacherId());
+        return response;
+    }
+
+
+
+
 
 
 }

@@ -1,10 +1,13 @@
 package com.pianoschool.lms.service;
 
 import com.pianoschool.lms.common.ServerResponse;
+import com.pianoschool.lms.domain.Enrollment;
 import com.pianoschool.lms.domain.Feedback;
+import com.pianoschool.lms.domain.Student;
 import com.pianoschool.lms.domain.Teacher;
 import com.pianoschool.lms.domain.model.EnrollmentStudentInfo;
 import com.pianoschool.lms.domain.model.IEnrollmentStudentInfo;
+import com.pianoschool.lms.domain.model.IStudentList;
 import com.pianoschool.lms.domain.model.StudentFeedbackInfo;
 import com.pianoschool.lms.repository.EnrollmentRepository;
 import com.pianoschool.lms.repository.FeedbackRepository;
@@ -15,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +35,6 @@ public class TeacherService   {
     private StudentRepository studentRepository;
     @Autowired
     private FeedbackRepository feedbackRepository;
-
     @Autowired
     private EnrollmentInfoConverter converter;
 
@@ -140,6 +143,62 @@ public class TeacherService   {
 
         return ServerResponse.createBySuccess("success add feedback");
     }
+
+    public ServerResponse getStudentNumber(int teacherId){
+        int number = enrollmentRepository.countEnrollmentByTeacherId(teacherId);
+        return ServerResponse.createBySuccess("get the numbers of students ", number);
+
+    }
+
+    public ServerResponse getNewStudent(int teacherId){
+
+        List<IEnrollmentStudentInfo> enrollmentList = enrollmentRepository.findEnrollmentStudentInfoByTeacherId(teacherId);
+
+        if (enrollmentList == null){
+            return ServerResponse.createByErrorMessage("no feedback availuable");
+        }
+
+        ArrayList<String> list = new ArrayList<>();
+        for (IEnrollmentStudentInfo iEnrollmentStudentInfo : enrollmentList) {
+            String fullName = iEnrollmentStudentInfo.getFullName();
+            list.add(fullName);
+        }
+
+        String result = list.get(list.size() - 1);
+
+
+        return ServerResponse.createBySuccess("student nanme get", result);
+
+    }
+
+    public ServerResponse getNewFeedback(int teacherId){
+
+        List<IEnrollmentStudentInfo> enrollmentList = enrollmentRepository.findEnrollmentStudentInfoByTeacherId(teacherId);
+
+        if (enrollmentList == null){
+            return ServerResponse.createByErrorMessage("no feedback availuable");
+        }
+
+        ArrayList<String> list = new ArrayList<>();
+        for (IEnrollmentStudentInfo iEnrollmentStudentInfo : enrollmentList) {
+            String fullName = iEnrollmentStudentInfo.getFeedback();
+            list.add(fullName);
+        }
+
+        String result = list.get(list.size() - 1);
+
+
+        return ServerResponse.createBySuccess("student nanme get", result);
+
+    }
+
+    public ServerResponse getStudentLists(int teacherId){
+        List<IStudentList> studentLists = enrollmentRepository.findStudentByTeacherId(teacherId);
+        return ServerResponse.createBySuccess("Student list", studentLists);
+
+    }
+
+
 
 
 }
